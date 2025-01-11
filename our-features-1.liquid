@@ -1,0 +1,233 @@
+{% style %}
+    #shopify-section-{{ section.id }} {
+        --no-column-desktop: {{ section.settings.no_of_column_desktop }};
+        --no-column-tablet: {{ section.settings.no_of_column_tablet }};
+        --no-column-mobile: {{ section.settings.no_of_column_mobile }};
+        --font-family: sans-serif;
+    }
+    #shopify-section-{{ section.id }} {
+        padding-block: 40px;
+    }
+    @media screen and (max-width: 750px) {
+        #shopify-section-{{ section.id }} {
+        padding-block: 20px;
+        }
+    }
+    #shopify-section-{{ section.id }} .inner-area {
+        max-width: 1310px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    #shopify-section-{{ section.id }} .inner-area .main-title {
+        font-family: var(--font-family, sans-serif);
+        font-style: normal;
+        font-weight: 700;
+        font-size: 44px;
+        line-height: 53px;
+        text-align: center;
+        text-transform: capitalize;
+        color: #000000;
+        margin-bottom: 1em;
+    }
+    #shopify-section-{{ section.id }} .icon-box-container {
+        display: grid;
+        grid-template-columns: repeat(var(--no-column-deskto, 4), 1fr);
+        gap: 94px 30px;
+    }
+    @media screen and (max-width: 1200px) {
+        #shopify-section-{{ section.id }} .icon-box-container {
+        grid-template-columns: repeat(var(--no-column-tablet, 3), 1fr);
+        }
+    }
+    @media screen and (max-width: 750px) {
+        #shopify-section-{{ section.id }} .icon-box-container {
+        grid-template-columns: repeat(var(--no-column-mobile, 2), 1fr);
+        }
+    }
+    @media screen and (max-width: 1200px) {
+        #shopify-section-{{ section.id }} .icon-box-container {
+        gap: 50px 20px;
+        }
+    }
+    @media screen and (max-width: 750px) {
+        #shopify-section-{{ section.id }} .icon-box-container {
+        gap: 30px 15px;
+        }
+    }
+    #shopify-section-{{ section.id }} .icon-box-container .icon-box {
+        display: flex;
+        gap: 24px;
+    }
+    @media screen and (max-width: 1200px) {
+        #shopify-section-{{ section.id }} .icon-box-container .icon-box {
+        gap: 20px;
+        }
+    }
+    @media screen and (max-width: 750px) {
+        #shopify-section-{{ section.id }} .icon-box-container .icon-box {
+        flex-direction: column;
+        gap: 15px;
+        }
+    }
+    #shopify-section-{{ section.id }} .icon-box-container .icon-box .img-wrapper {
+        position: relative;
+        isolation: isolate;
+        width: 86px;
+        height: 86px;
+        flex: 0 0 86px;
+    }
+    #shopify-section-{{ section.id }} .icon-box-container .icon-box .img-wrapper::after {
+        content: "";
+        position: absolute;
+        inset: 0px;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0px -6px 12px rgba(158, 158, 158, 0.12), inset -2px -4px 4px #F4F4F4, inset 0px 4px 4px rgba(255, 255, 255, 0.25);
+        z-index: 2;
+        margin: auto;
+        border-radius: 14px;
+    }
+    #shopify-section-{{ section.id }} .icon-box-container .icon-box .img-wrapper .icon-image {
+        background: #FFFFFF;
+        width: 86px;
+        height: 86px;
+        border-radius: 14px;
+    }
+    #shopify-section-{{ section.id }} .icon-box-container .icon-box .details .title {
+        font-family: var(--font-family, sans-serif);
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 1.20833333;
+    }
+    @media screen and (max-width: 1200px) {
+        #shopify-section-{{ section.id }} .icon-box-container .icon-box .details .title {
+        font-size: 20px;
+        }
+    }
+    @media screen and (max-width: 750px) {
+        #shopify-section-{{ section.id }} .icon-box-container .icon-box .details .title {
+        font-size: 18px;
+        }
+    }
+    #shopify-section-{{ section.id }} .icon-box-container .icon-box .details .content {
+        font-family: var(--font-family, sans-serif);
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 1.21428571;
+        letter-spacing: -0.02em;
+    }
+{% endstyle %}
+<div class="inner-area">
+    <h2 class="main-title">
+        {{ section.settings.title }}
+    </h2>
+    <div class="icon-box-container">
+        {% for block in section.blocks %}
+            <div class="icon-box" {{ block.shopify_attributes }}>
+                <div class="img-wrapper">
+                    {% if block.settings.icon != blank %}
+                        {{ block.settings.icon | img_url: '100x' | img_tag: block.settings.icon.alt, 'icon-image' }}
+                    {% else %}
+                        {{ 'place-holder-100x.svg' | inline_asset_content }}
+                    {% endif %}
+                </div>
+                <div class="details">
+                    <h3 class="title">
+                        {{ block.settings.title }}
+                    </h3>
+                    <div class="rte content">
+                        {{ block.settings.content }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% schema %}
+{
+    "name": "Our Features 1",
+    "class": "our-features-1",
+    "presets": [
+        {
+            "name":"Our Features 1"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "icon_text",
+            "name": "Icon With Text",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "icon",
+                    "label": "Icon"
+                },
+                {
+                    "type": "inline_richtext",
+                    "id": "title",
+                    "label": "Title",
+                    "default": "Firm support"
+                },
+                {
+                    "type": "richtext",
+                    "id": "content",
+                    "label": "Content",
+                    "default": "<p>All our mattresses give you just the right support for your body.</p>"
+                }
+            ]
+        }
+    ],
+    "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Our Features"
+        },
+        {
+            "type": "header",
+            "content": "Desktop"
+        },
+        {
+            "type": "range",
+            "id": "no_of_column_desktop",
+            "label": "No Of Column",
+            "unit": "px",
+            "min": 1,
+            "max": 4,
+            "step": 1,
+            "default": 4
+        },
+        {
+            "type": "header",
+            "content": "Tablet"
+        },
+        {
+            "type": "range",
+            "id": "no_of_column_tablet",
+            "label": "No Of Column",
+            "unit": "px",
+            "min": 1,
+            "max": 4,
+            "step": 1,
+            "default": 3
+        },
+        {
+            "type": "header",
+            "content": "Mobile"
+        },
+        {
+            "type": "range",
+            "id": "no_of_column_mobile",
+            "label": "No Of Column",
+            "unit": "px",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "default": 2
+        }
+    ]
+}
+{% endschema %}
